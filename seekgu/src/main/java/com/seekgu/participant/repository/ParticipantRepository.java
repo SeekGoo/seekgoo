@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ParticipantRepository {
     List<Participant> getParticipantsBySeekguIdx(Long seekguIdx);
-    Boolean saveParticipant(Participant participant);
+    Long saveParticipant(Participant participant);
 }
