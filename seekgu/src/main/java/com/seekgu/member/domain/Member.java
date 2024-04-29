@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 public class Member {
     private Long memberIdx;
     private String memberNickName;
+    private String memberName;
     private String memberId;
     private String memberPw;
+    private String memberSlackId;
     private Gender memberGender;
 }
