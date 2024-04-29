@@ -35,6 +35,6 @@ public class SeekguBoardService {
     }
 
     public SeekguBoard findSeekguBoardById(Long seekguIdx) {
-        return findSeekguBoardById(seekguIdx);
+        return seekguBoardRepository.findSeekguBoardByIdx(seekguIdx);
     }
 }
