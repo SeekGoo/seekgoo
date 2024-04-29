@@ -15,5 +15,6 @@ public class Member {
     private String memberName;
     private String memberId;
     private String memberPw;
+    private String memberSlackId;
     private Gender memberGender;
 }
