@@ -1,6 +1,6 @@
 package com.seekgu.seekguboard.api;
 
-import com.seekgu.ApiUtil;
+import com.seekgu.utils.ApiUtil;
 import com.seekgu.seekguboard.domain.SeekguBoard;
 import com.seekgu.seekguboard.service.SeekguBoardService;
 import java.util.List;

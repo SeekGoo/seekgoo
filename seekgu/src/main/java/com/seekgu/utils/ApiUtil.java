@@ -1,4 +1,4 @@
-package com.seekgu;
+package com.seekgu.utils;
 
 public class ApiUtil {
 
