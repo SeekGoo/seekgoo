@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.slack.api.Slack;
+import com.slack.api.methods.MethodsClient;
 import com.slack.api.methods.SlackApiException;
 import com.slack.api.model.User;
 
@@ -16,6 +17,7 @@ public class SlackService {
 
 	static String token;
 	static String channelId;
+	static MethodsClient client = Slack.getInstance().methods();
 
 	@Value(value = "${slack.token}")
 	private void setToken(String value) {
@@ -42,13 +44,40 @@ public class SlackService {
 
 	}
 
+	public static void sendRecruitmentStartNoti(String nickname) {
+		sendMessage(channelId, makeRecruitmentStartNotiMessage(nickname));
+	}
+
+	public static void sendRecruitmentCompletionNoti(List<String> slackIdList) {
+		slackIdList.forEach(slackId ->
+			sendMessage(slackId, makeRecruitmentCompletionNotiMessage()));
+	}
+
 	private static List<User> fetchUsers() {
-		var client = Slack.getInstance().methods();
 		try {
 			var result = client.usersList(r -> r
 				.token(token)
 			);
 			return result.getMembers();
+		} catch (IOException | SlackApiException e) {
+			throw new RuntimeException("SLACK_API_FAILURE");
+		}
+	}
+
+	private static String makeRecruitmentStartNotiMessage(String nickname) {
+		return nickname + "님이 식구 모집글을 등록했어요!";
+	}
+
+	private static String makeRecruitmentCompletionNotiMessage() {
+		return "식구 모집이 완료되었어요!";
+	}
+
+	private static void sendMessage(String destinationId, String message) {
+		try {
+			client.chatPostMessage(r -> r
+				.token(token)
+				.channel(destinationId)
+				.text(message));
 		} catch (IOException | SlackApiException e) {
 			throw new RuntimeException("SLACK_API_FAILURE");
 		}
