@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SeekguBoardRepository {
     SeekguBoard findSeekguBoardByIdx(Long seekguIdx);
-    Boolean save(SeekguBoard seekguBoard);
+    Long save(SeekguBoard seekguBoard);
     List<SeekguBoard> findRecruitingSeekguBoard();
     List<SeekguBoard> findDoneSeekguBoard();
     List<SeekguBoard> findMySeekguBoard(Long memberIdx);
