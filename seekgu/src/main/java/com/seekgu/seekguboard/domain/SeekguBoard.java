@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.javassist.compiler.ast.Member;
 
 @Data
 @Builder
@@ -22,6 +23,6 @@ public class SeekguBoard {
     private Integer seekguMin;
     private Integer seekguMax;
     private Integer seekguLimitTime;
-    private LocalDateTime seekguRegTime;
-    private LocalDateTime seekguMealTime;
+    private LocalDateTime seekguRegDate;
+    private MealTime seekguMealTime;
 }
