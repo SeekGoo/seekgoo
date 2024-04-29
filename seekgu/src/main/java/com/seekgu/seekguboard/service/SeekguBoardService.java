@@ -46,4 +46,23 @@ public class SeekguBoardService {
     public SeekguBoard findSeekguBoardById(Long seekguIdx) {
         return seekguBoardRepository.findSeekguBoardByIdx(seekguIdx);
     }
+
+    @Transactional
+    public Boolean participate(Long seekguIdx, Long memberIdx) {
+        SeekguBoard seekguBoard = seekguBoardRepository.getSeekguBoardForUpdate(seekguIdx);
+        if (seekguBoard.getSeekguMemberCount() >= seekguBoard.getSeekguMax()) {
+            return Boolean.FALSE;
+        }
+        List<Participant> participants = participantRepository.getParticipantsBySeekguIdx(seekguIdx);
+        for(Participant p : participants) {
+            if(p.getMemberIdx().equals(memberIdx)) {
+                throw new IllegalArgumentException("이미 참여한 멤버입니다.");
+            }
+        }
+        seekguBoardRepository.participate(seekguIdx);
+        Participant participant = Participant.builder().memberIdx(memberIdx).seekguIdx(seekguIdx).build();
+        participantRepository.saveParticipant(participant);
+        return Boolean.TRUE;
+    }
+
 }
