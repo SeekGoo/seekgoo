@@ -53,6 +53,17 @@ public class SlackService {
 			sendMessage(slackId, makeRecruitmentCompletionNotiMessage()));
 	}
 
+	public static void addMemberToChannel(String slackId) {
+		try {
+			client.conversationsInvite(r -> r
+				.token(token)
+				.channel(channelId)
+				.users(List.of(slackId)));
+		} catch (IOException | SlackApiException e) {
+			throw new RuntimeException("SLACK_API_FAILURE");
+		}
+	}
+
 	private static List<User> fetchUsers() {
 		try {
 			var result = client.usersList(r -> r
