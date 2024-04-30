@@ -26,6 +26,6 @@ class ParticipantRepositoryTest {
                 .memberIdx(1L)
                 .seekguIdx(1L).build();
 
-        Assertions.assertThat(participantRepository.saveParticipant(participant)).isTrue();
+        Assertions.assertThat(participantRepository.saveParticipant(participant)).isNotNull();
     }
 }
