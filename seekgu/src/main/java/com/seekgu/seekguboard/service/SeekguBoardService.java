@@ -12,6 +12,8 @@ import com.seekgu.utils.slack.SlackUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,13 +77,14 @@ public class SeekguBoardService {
     }
 
     public SeekguBoardDetailDto findSeekguBoardWithReviewById(Long seekguIdx) {
-        SeekguBoardDetailDto seekguBoardWithReviews = seekguBoardRepository.findSeekguBoardWithReviews(seekguIdx);
+        SeekguBoardDetailDto seekguBoardWithReviews = seekguBoardRepository.findSeekguBoardWithReviews(seekguIdx)
+            .orElseThrow(() -> new RuntimeException("해당하는 식구가 없습니다."));
+
         if (seekguBoardWithReviews.getReviewList().get(0).getReviewIdx() == null) {
             seekguBoardWithReviews.setReviewList(new ArrayList<>());
         }
         return seekguBoardWithReviews;
     }
-
 
     @Transactional
     public Boolean participate(Long seekguIdx, Long memberIdx) {
