@@ -10,7 +10,7 @@
         values (0, #{memberName}, #{memberNickName}, #{memberSlackId}, #{memberId}, #{memberPw}, #{memberGender})
     </insert>
 
-    <select id="getMemberById" parameterType="Long">
+    <select id="getMemberByIdx" parameterType="Long">
         SELECT * from member WHERE member_idx = #{memberIdx}
     </select>
 
