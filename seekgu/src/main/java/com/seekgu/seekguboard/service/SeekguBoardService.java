@@ -1,9 +1,13 @@
 package com.seekgu.seekguboard.service;
 
+import com.seekgu.member.domain.Member;
+import com.seekgu.member.repository.MemberRepository;
 import com.seekgu.participant.domain.Participant;
 import com.seekgu.participant.repository.ParticipantRepository;
 import com.seekgu.seekguboard.domain.SeekguBoard;
+import com.seekgu.seekguboard.domain.dto.SeekguBoardCreateDto;
 import com.seekgu.seekguboard.repository.SeekguBoardRepository;
+import com.seekgu.utils.slack.SlackUtil;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,9 +19,23 @@ public class SeekguBoardService {
 
     private final SeekguBoardRepository seekguBoardRepository;
     private final ParticipantRepository participantRepository;
+    private final MemberRepository memberRepository;
+    private final SlackUtil slackUtil;
 
     @Transactional
-    public Boolean createSeekguBoard(SeekguBoard seekguBoard) {
+    public Boolean createSeekguBoard(SeekguBoardCreateDto dto) {
+        SeekguBoard seekguBoard = SeekguBoard.builder()
+                .seekguTitle(dto.getSeekguTitle())
+                .seekguContent(dto.getSeekguContent())
+                .seekguRestaurantName(dto.getSeekguRestaurantName())
+                .seekguRestaurantLatitude(dto.getSeekguRestaurantLatitude())
+                .seekguRestaurantLongitude(dto.getSeekguRestaurantLongitude())
+                .memberIdx(dto.getMemberIdx())
+                .seekguMin(dto.getSeekguMin())
+                .seekguMax(dto.getSeekguMax())
+                .seekguLimitTime(dto.getSeekguLimitTime())
+                .seekguMealTime(dto.getSeekguMealTime())
+                .build();
         try {
             Long saveIdx = seekguBoardRepository.save(seekguBoard);
             Participant participant = Participant.builder()
@@ -25,10 +43,16 @@ public class SeekguBoardService {
                     .seekguIdx(saveIdx)
                     .build();
             participantRepository.saveParticipant(participant);
+            sendCreateNoti(seekguBoard.getMemberIdx());
         } catch (Exception e) {
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
+    }
+
+    private void sendCreateNoti(Long memberIdx) {
+        Member member = memberRepository.getMemberByIdx(memberIdx);
+        slackUtil.sendRecruitmentStartNoti(member.getMemberNickName());
     }
 
     public List<SeekguBoard> mySeekguBoards(Long memberIdx) {
@@ -54,8 +78,8 @@ public class SeekguBoardService {
             return Boolean.FALSE;
         }
         List<Participant> participants = participantRepository.getParticipantsBySeekguIdx(seekguIdx);
-        for(Participant p : participants) {
-            if(p.getMemberIdx().equals(memberIdx)) {
+        for (Participant p : participants) {
+            if (p.getMemberIdx().equals(memberIdx)) {
                 throw new IllegalArgumentException("이미 참여한 멤버입니다.");
             }
         }
