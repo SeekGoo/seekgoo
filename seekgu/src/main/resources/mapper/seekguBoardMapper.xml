@@ -5,6 +5,41 @@
 
 <mapper namespace = "com.seekgu.seekguboard.repository.SeekguBoardRepository">
 
+    <resultMap id="SeekguBoardWithReviewsResultMap" type="com.seekgu.seekguboard.domain.dto.SeekguBoardDetailDto">
+        <id property="seekguIdx" column="seekgu_idx"/>
+        <result property="seekguTitle" column="seekgu_title"/>
+        <result property="seekguContent" column="seekgu_content"/>
+        <result property="seekguRestaurantName" column="seekgu_restaurant_name"/>
+        <result property="seekguRestaurantLatitude" column="seekgu_restaurant_latitude"/>
+        <result property="seekguRestaurantLongitude" column="seekgu_restaurant_longitude"/>
+        <result property="memberIdx" column="member_idx"/>
+        <result property="seekguMemberCount" column="seekgu_member_count"/>
+        <result property="seekguMin" column="seekgu_min"/>
+        <result property="seekguMax" column="seekgu_max"/>
+        <result property="seekguLimitTime" column="seekgu_limit_time"/>
+        <result property="seekguRegDate" column="seekgu_reg_date"/>
+        <result property="seekguMealTime" column="seekgu_meal_time"/>
+
+        <collection property="reviewList" ofType="review">
+            <id property="reviewIdx" column="review_idx"/>
+            <result property="seekguIdx" column="seekgu_idx"/>
+            <result property="reviewRate" column="review_rate"/>
+            <result property="memberNickname" column="member_nickname"/>
+            <result property="reviewComment" column="review_comment"/>
+        </collection>
+    </resultMap>
+
+    <select id="findSeekguBoardWithReviews" resultMap="SeekguBoardWithReviewsResultMap" parameterType="Long">
+        SELECT
+            s.*,
+            r.review_idx, r.seekgu_idx, r.review_rate, r.member_nickname, r.review_comment
+        FROM
+            seekguboard s
+        LEFT JOIN
+            review r ON s.seekgu_idx = r.seekgu_idx
+        WHERE s.seekgu_idx = #{seekguIdx}
+    </select>
+
     <select id="findSeekguBoardByIdx" resultType="seekguBoard" parameterType="Long">
         SELECT * from seekguboard WHERE seekgu_idx = #{seekguIdx}
     </select>

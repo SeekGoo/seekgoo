@@ -1,6 +1,8 @@
 package com.seekgu.seekguboard.repository;
 
 import com.seekgu.seekguboard.domain.SeekguBoard;
+import com.seekgu.seekguboard.domain.dto.SeekguBoardDetailDto;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +16,5 @@ public interface SeekguBoardRepository {
     List<SeekguBoard> findMySeekguBoard(Long memberIdx);
     SeekguBoard getSeekguBoardForUpdate(Long seekguIdx);
     Boolean participate(Long seekguIdx);
+    SeekguBoardDetailDto findSeekguBoardWithReviews(Long seekguIdx);
 }

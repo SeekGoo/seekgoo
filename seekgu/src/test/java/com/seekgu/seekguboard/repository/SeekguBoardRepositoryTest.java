@@ -1,18 +1,13 @@
 package com.seekgu.seekguboard.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.seekgu.seekguboard.domain.MealTime;
 import com.seekgu.seekguboard.domain.SeekguBoard;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
