@@ -14,5 +14,5 @@ public class Review {
     private Long seekguIdx;
     private Integer reviewRate;
     private String memberNickname;
-    private String reviewContent;
+    private String reviewComment;
 }
