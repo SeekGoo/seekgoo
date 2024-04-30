@@ -6,9 +6,14 @@ import com.seekgu.participant.domain.Participant;
 import com.seekgu.participant.repository.ParticipantRepository;
 import com.seekgu.seekguboard.domain.SeekguBoard;
 import com.seekgu.seekguboard.domain.dto.SeekguBoardCreateDto;
+import com.seekgu.seekguboard.domain.dto.SeekguBoardDetailDto;
 import com.seekgu.seekguboard.repository.SeekguBoardRepository;
 import com.seekgu.utils.slack.SlackUtil;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,6 +74,16 @@ public class SeekguBoardService {
 
     public SeekguBoard findSeekguBoardById(Long seekguIdx) {
         return seekguBoardRepository.findSeekguBoardByIdx(seekguIdx);
+    }
+
+    public SeekguBoardDetailDto findSeekguBoardWithReviewById(Long seekguIdx) {
+        SeekguBoardDetailDto seekguBoardWithReviews = seekguBoardRepository.findSeekguBoardWithReviews(seekguIdx)
+            .orElseThrow(() -> new RuntimeException("해당하는 식구가 없습니다."));
+
+        if (seekguBoardWithReviews.getReviewList().get(0).getReviewIdx() == null) {
+            seekguBoardWithReviews.setReviewList(new ArrayList<>());
+        }
+        return seekguBoardWithReviews;
     }
 
     @Transactional

@@ -14,5 +14,9 @@
         values (0, #{memberIdx}, #{seekguIdx})
     </insert>
 
+    <select id="checkMemberIsSeekgu" parameterType="Long">
+        SELECT EXISTS(SELECT * FROM participant WHERE member_idx = #{memberIdx} AND seekgu_idx = #{seekguIdx})
+    </select>
+
 
 </mapper>
