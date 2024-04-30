@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Layout</title>
+    <link href="css/seekgooboardwrite.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-box">
+            <div class="temp-box"></div>
+        </div>
+        <div class="right-box">
+            <!-- 우측 박스 내용 -->
+            <div class="seekgooboardwrite-wrapper">
+                <h2>Gather</h2>
+                <input type="text" name="userName" placeholder="식당검색">
+                <button type="text">wefwef</button>
+                <form method="post" action="서버의url" id="seekgooboardwrite-form">
+                    <input type="text" name="userName" placeholder="Title">
+                    <textarea placeholder="Content"></textarea>
+                    <input type="text" name="userPassword" placeholder="모집인원: 2 ~ n">
+                    <label for="time">마감시간:</label>
+                    <select name="time" id="time">
+                        <option value="10">10분</option>
+                        <option value="20">20분</option>
+                        <option value="30">30분</option>
+                        <option value="40">40분</option>
+                        <option value="50">50분</option>
+                        <option value="60">60분</option>
+                    </select>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            점심
+                        </label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            저녁
+                        </label>
+                    </div>
+                    <input type="submit" value="Shoot!">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
