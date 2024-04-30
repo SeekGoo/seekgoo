@@ -34,9 +34,8 @@ public class MemberService {
     }
 
     public Member login(MemberLoginDto memberLoginDto) {
-        Member member = memberRepository.getMemberById(memberLoginDto.getMemberId()).orElseThrow(() -> {
-            throw new IllegalArgumentException("존재하지 않는 회원입니다.");
-        });
+        Member member = memberRepository.getMemberById(memberLoginDto.getMemberId()).orElseThrow(() -> new IllegalArgumentException(
+                "존재하지 않는 회원입니다."));
         if (!isValidPassword(memberLoginDto.getMemberPw(), member.getMemberPw())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }

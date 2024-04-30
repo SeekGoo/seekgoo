@@ -31,9 +31,7 @@ public class SlackUtil {
             }
         }
 
-        return userSlackId.orElseThrow(() -> {
-            throw new RuntimeException("SLACK_ID_NOT_FOUND");
-        });
+        return userSlackId.orElseThrow(() -> new RuntimeException("SLACK_ID_NOT_FOUND"));
 
     }
 
