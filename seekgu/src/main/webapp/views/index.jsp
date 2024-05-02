@@ -32,8 +32,8 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-3 mb-2 mb-lg-0 ms-lg-auto">
-                <li class="nav-item fs-12"><a class="nav-link active" href="login.html">Login</a></li>
-                <li class="nav-item fs-12"><a class="nav-link active" href="signup.html">Sign Up</a></li>
+                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="member/login">">Login</a></li>
+                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="member/signup">">Sign Up</a></li>
             </ul>
         </div>
     </div>
@@ -50,7 +50,7 @@
 <div class="text-center mt-5 fs-4 menus">
     <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/recruit"/>'">모집중</span>
     <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/done"/>'">식구들</span>
-    <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/my?memberIdx="/>1'">나의 식구</span>
+    <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/my?memberIdx="/>${sessionScope.memberId}'">나의 식구</span>
 </div>
 <button id="write-button"><a href="<c:url value="/seekgu/write"/>">모집하기</a></button>
 <!-- Section-->
