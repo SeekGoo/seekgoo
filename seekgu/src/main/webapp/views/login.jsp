@@ -71,7 +71,7 @@
             </form>
             <br>
             <div class="login-to-signup">
-                <a href="/signup.html">or Be Our SeekGoo</a>
+                <a href='<c:url value="/member/signup"/>'>or Be Our SeekGoo</a>
             </div>
         </div>
     </div>
