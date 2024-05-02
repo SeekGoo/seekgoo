@@ -27,6 +27,7 @@ public class MemberService {
                 .build();
         try {
             memberRepository.saveMember(member);
+            slackUtil.addMemberToChannel(member.getMemberSlackId());
         } catch (Exception e) {
             return Boolean.FALSE;
         }
