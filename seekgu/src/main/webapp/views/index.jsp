@@ -96,7 +96,7 @@
                                 </div>
                                 <!-- 모집 글 상세보기-->
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="/gathering.html">모집
+                                    <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="<c:url value="/seekgu/detail?seekguIdx="/>${seekgu.boardIdx} ">모집
                                         상세보기</a></div>
                                 </div>
                             </div>

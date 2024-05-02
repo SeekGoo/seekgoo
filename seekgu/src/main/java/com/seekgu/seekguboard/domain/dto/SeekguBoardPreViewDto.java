@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class SeekguBoardPreViewDto {
+    private Long boardIdx;
     private String boardTitle;
     private String boardRestaurantName;
     private String boardMealTime;
@@ -16,6 +17,7 @@ public class SeekguBoardPreViewDto {
     private Boolean isRecruiting;
 
     public SeekguBoardPreViewDto(SeekguBoard seekguBoard) {
+        this.boardIdx = seekguBoard.getSeekguIdx();
         this.boardTitle = seekguBoard.getSeekguTitle();
         this.boardRestaurantName = seekguBoard.getSeekguRestaurantName();
         this.boardMealTime = seekguBoard.getSeekguMealTime().name();
