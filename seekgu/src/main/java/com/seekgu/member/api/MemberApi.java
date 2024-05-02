@@ -8,19 +8,28 @@ import com.seekgu.utils.ApiUtil;
 import com.seekgu.utils.ApiUtil.ApiSuccessResult;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
-@RequestMapping("/api/member")
+@Controller
+@RequestMapping("/member")
 @RequiredArgsConstructor
 public class MemberApi {
     private final MemberService memberService;
 
-    @PostMapping("/signIn")
+    @RequestMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    @ResponseBody
+    @PostMapping("/loginImpl")
     public ApiSuccessResult<Boolean> logIn(@RequestBody MemberLoginDto memberLoginDto, HttpSession session) {
         Member loginMember = memberService.login(memberLoginDto);
         session.setAttribute("memberId", loginMember.getMemberIdx());
