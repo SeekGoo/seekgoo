@@ -7,12 +7,12 @@ import com.seekgu.participant.repository.ParticipantRepository;
 import com.seekgu.seekguboard.domain.SeekguBoard;
 import com.seekgu.seekguboard.domain.dto.SeekguBoardCreateDto;
 import com.seekgu.seekguboard.domain.dto.SeekguBoardDetailDto;
+import com.seekgu.seekguboard.domain.dto.SeekguBoardPreViewDto;
 import com.seekgu.seekguboard.repository.SeekguBoardRepository;
 import com.seekgu.utils.slack.SlackUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -60,16 +60,16 @@ public class SeekguBoardService {
         slackUtil.sendRecruitmentStartNoti(member.getMemberNickName());
     }
 
-    public List<SeekguBoard> mySeekguBoards(Long memberIdx) {
-        return seekguBoardRepository.findMySeekguBoard(memberIdx);
+    public List<SeekguBoardPreViewDto> mySeekguBoards(Long memberIdx) {
+        return seekguBoardRepository.findMySeekguBoard(memberIdx).stream().map(SeekguBoardPreViewDto::new).toList();
     }
 
-    public List<SeekguBoard> recruitingSeekguBoards() {
-        return seekguBoardRepository.findRecruitingSeekguBoard();
+    public List<SeekguBoardPreViewDto> recruitingSeekguBoards() {
+        return seekguBoardRepository.findRecruitingSeekguBoard().stream().map(SeekguBoardPreViewDto::new).toList();
     }
 
-    public List<SeekguBoard> doneSeekguBoards() {
-        return seekguBoardRepository.findDoneSeekguBoard();
+    public List<SeekguBoardPreViewDto> doneSeekguBoards() {
+        return seekguBoardRepository.findDoneSeekguBoard().stream().map(SeekguBoardPreViewDto::new).toList();
     }
 
     public SeekguBoard findSeekguBoardById(Long seekguIdx) {
