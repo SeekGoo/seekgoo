@@ -33,7 +33,8 @@ public class KakaoUtil {
                 + "query=" + keyword
                 + "&y=" + latitude
                 + "&x=" + longitude
-                + "&radius=1000";
+                + "&radius=1000"
+                + "&size=5";
 
         HttpEntity entity = new HttpEntity<>(headers);
 
