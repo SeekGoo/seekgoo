@@ -82,10 +82,12 @@
     </c:forEach>
 </c:if>
 
-<div class="write-comment">
-    <textarea placeholder="댓글을 입력하세요"></textarea>
-    <button class="write-comment-btn">댓글 등록</button>
-</div>
+<c:if test="${!seekguBoard.isRecruiting}">
+    <div class="write-comment">
+        <textarea placeholder="댓글을 입력하세요"></textarea>
+        <button class="write-comment-btn">댓글 등록</button>
+    </div>
+</c:if>
 
 
 <!-- Footer-->
