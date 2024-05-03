@@ -115,12 +115,14 @@
                 let name = $('#seekguRestaurantName').val();
                 let lat = $('#seekguRestaurantLatitude').val();
                 let lng = $('#seekguRestaurantLongitude').val();
+                let idx = $('#memberIdx').val();
 
                 $.ajax({
-                    url: '<c:url value=""/> ',
+                    url: '<c:url value="/seekgu/writeImpl"/> ',
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify({
+                        memberIdx: idx,
                         seekguTitle: title,
                         seekguContent: content,
                         seekguMin: minNum,
@@ -133,7 +135,7 @@
                     }),
                     success: function (response) {
                         if (response.response) {
-                            window.location.href = '<c:url value="/seekgu"/>';
+                            window.location.href = '<c:url value="/"/>';
                         } else if (response.statusCode && response.message) {
                             alert("Error: " + response.message);
                         }
@@ -153,6 +155,7 @@
 </head>
 
 <body>
+<input type="hidden" value="${sessionScope.memberId}" id="memberIdx">
     <div class="container">
         <div class="left-box">
             <div id="include-map">

@@ -44,7 +44,7 @@
                     }),
                     success: function (response) {
                         if (response.response) {
-                            window.location.href = '<c:url value="/seekgu/recruit"/>';
+                            window.location.href = '<c:url value="/seekgu"/>';
                         } else if (response.statusCode && response.message) {
                             alert("Error: " + response.message);
                         }
