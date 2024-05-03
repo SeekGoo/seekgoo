@@ -29,4 +29,9 @@ public class SeekguBoardDetailDto {
     private LocalDateTime seekguRegDate;
     private MealTime seekguMealTime;
     private List<Review> reviewList;
+    private Boolean isRecruiting;
+
+    public void updateIsRecruiting() {
+        this.isRecruiting = LocalDateTime.now().isBefore(seekguRegDate.plusMinutes(seekguLimitTime));
+    }
 }

@@ -56,9 +56,11 @@
     <p class="fs-14 fw-bolder">작성자 : ${seekguBoard.seekguMemberNickName}</p>
 
     <div class="divider"></div>
-    <span class="badge timer-background text-center fs-6 p-3 mb-2">
+    <c:if test="${seekguBoard.isRecruiting}">
+        <span class="badge timer-background text-center fs-6 p-3 mb-2">
             TIMER 09 : 50
         </span>
+    </c:if>
     <div class="divider"></div>
     <div>
         <p>${seekguBoard.seekguContent}</p>
