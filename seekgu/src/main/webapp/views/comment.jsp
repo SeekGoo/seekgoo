@@ -49,6 +49,16 @@
         </div>
     </div>
 </header>
+
+<c:if test="${seekguBoard.isRecruiting && seekguBoard.memberIdx != sessionScope.memberId}">
+    <button id="engage-button">
+        <img src="/assets/logo_white.png" width="50px" alt="이미지_설명">
+        <br>
+        2 / 4<br>
+        09:48<br>
+        <p>참여하기</p>
+    </button>
+</c:if>
 <!-- Section-->
 
 <div class="gathering">
