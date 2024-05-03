@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SeekguBoardApi {
     private final SeekguBoardService seekguBoardService;
 
-    @GetMapping("/recruit")
+    @GetMapping
     public String getRecruitingBoard(Model model) {
         model.addAttribute("seekguList", seekguBoardService.recruitingSeekguBoards());
         return "index";
@@ -44,5 +44,10 @@ public class SeekguBoardApi {
     public String getDetailBoard(@RequestParam(name = "seekguIdx") Long seekguIdx, Model model) {
         model.addAttribute("seekguBoard", seekguBoardService.findSeekguBoardWithReviewById(seekguIdx));
         return "comment";
+    }
+
+    @GetMapping("/write")
+    public String boardWrite(){
+        return "seekgooboardwrite";
     }
 }
