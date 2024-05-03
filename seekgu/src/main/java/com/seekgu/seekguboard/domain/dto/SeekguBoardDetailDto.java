@@ -21,6 +21,7 @@ public class SeekguBoardDetailDto {
     private Double seekguRestaurantLatitude;
     private Double seekguRestaurantLongitude;
     private Long memberIdx;
+    private String seekguMemberNickName;
     private Integer seekguMemberCount;
     private Integer seekguMin;
     private Integer seekguMax;

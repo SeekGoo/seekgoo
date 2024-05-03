@@ -13,6 +13,7 @@
         <result property="seekguRestaurantLatitude" column="seekgu_restaurant_latitude"/>
         <result property="seekguRestaurantLongitude" column="seekgu_restaurant_longitude"/>
         <result property="memberIdx" column="member_idx"/>
+        <result property="seekguMemberNickName" column="writer"/>
         <result property="seekguMemberCount" column="seekgu_member_count"/>
         <result property="seekguMin" column="seekgu_min"/>
         <result property="seekguMax" column="seekgu_max"/>
@@ -32,11 +33,14 @@
     <select id="findSeekguBoardWithReviews" resultMap="SeekguBoardWithReviewsResultMap" parameterType="Long">
         SELECT
             s.*,
-            r.review_idx, r.seekgu_idx, r.review_rate, r.member_nickname, r.review_comment
+            r.review_idx, r.seekgu_idx, r.review_rate, r.member_nickname, r.review_comment,
+            m.member_nickname as writer
         FROM
             seekguboard s
         LEFT JOIN
             review r ON s.seekgu_idx = r.seekgu_idx
+        LEFT JOIN
+            member m ON s.member_idx = m.member_idx
         WHERE s.seekgu_idx = #{seekguIdx}
     </select>
 
