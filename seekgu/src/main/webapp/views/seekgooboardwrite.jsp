@@ -14,7 +14,7 @@
             integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
             crossorigin="anonymous"></script>
     <title>식구를 구해보세요</title>
-    <link href= "<c:url value="css/seekgooboardwrite.css"/> " rel="stylesheet" />
+    <link href= "<c:url value="/css/seekgooboardwrite.css"/> " rel="stylesheet" />
     <script>
         let seekgooboardwrite = {
             init: function (){
