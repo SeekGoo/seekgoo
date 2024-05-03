@@ -36,9 +36,11 @@ dependencies {
     // json
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
-
     // slack
     implementation "com.slack.api:slack-api-client:1.25.1"
+
+    // json
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
     //tomcat & JSP
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'

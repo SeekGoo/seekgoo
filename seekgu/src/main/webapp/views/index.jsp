@@ -32,8 +32,8 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-3 mb-2 mb-lg-0 ms-lg-auto">
-                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="member/login">">Login</a></li>
-                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="member/signup">">Sign Up</a></li>
+                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="member/login"/>">Login</a></li>
+                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="member/signup"/>">Sign Up</a></li>
             </ul>
         </div>
     </div>
