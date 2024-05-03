@@ -29,7 +29,7 @@
                     this.search();
                 });
                 $('#send_form_btn').click(() =>{
-                    $('#seekgooboardwrite-form').submit();
+                    this.send();
                 })
             },
             search: function () {
@@ -106,9 +106,43 @@
                 });
             },
             send: function () {
-                $.ajax({
+                let title = $('#seekguTitle').val();
+                let content = $('#seekguContent').val();
+                let minNum = $('#seekguMin').val();
+                let maxNum = $('#seekguMax').val();
+                let limit = $('#seekguLimitTime').val();
+                let meal = $('#seekguMealTime').val()
+                let name = $('#seekguRestaurantName').val();
+                let lat = $('#seekguRestaurantLatitude').val();
+                let lng = $('#seekguRestaurantLongitude').val();
 
+                $.ajax({
+                    url: '<c:url value=""/> ',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        seekguTitle: title,
+                        seekguContent: content,
+                        seekguMin: minNum,
+                        seekguMax: maxNum,
+                        seekguLimitTime: limit,
+                        seekguMealTime: meal,
+                        seekguRestaurantName: name,
+                        seekguRestaurantLatitude: lat,
+                        seekguRestaurantLongitude: lng,
+                    }),
+                    success: function (response) {
+                        if (response.response) {
+                            window.location.href = '<c:url value="/seekgu"/>';
+                        } else if (response.statusCode && response.message) {
+                            alert("Error: " + response.message);
+                        }
+                    },
+                    error: function () {
+                        console.error('모집 등록 실패:', error);
+                    }
                 })
+
             }
         };
 
@@ -134,13 +168,13 @@
                     <button id="search-map-btn">search</button>
                     <div id="search-result"></div>
                 </div>
-                <form id="seekgooboardwrite-form">
-                    <input type="text" name="seekguTitle" placeholder="제목을 입력하세요">
-                    <textarea name="seekguContent" placeholder="어그로를 끌어주세요"></textarea>
-                    <input type="text" name="seekguMin" placeholder="최소인원: 2 ~ n" style="width: 49%;">
-                    <input type="text" name="seekguMax" placeholder="최대인원: 2 ~ n" style="width: 49%;">
-                    <label for="time">마감시간:</label>
-                    <select name="seekguLimitTime" id="time">
+                <div id="seekgooboardwrite-form">
+                    <input type="text" name="seekguTitle" id="seekguTitle" placeholder="제목을 입력하세요">
+                    <textarea name="seekguContent" id="seekguContent" placeholder="어그로를 끌어주세요"></textarea>
+                    <input type="text" name="seekguMin" id="seekguMin" placeholder="최소인원: 2 ~ n" style="width: 49%;">
+                    <input type="text" name="seekguMax" id="seekguMax" placeholder="최대인원: 2 ~ n" style="width: 49%;">
+                    <label for="seekguLimitTime">마감시간:</label>
+                    <select name="seekguLimitTime" id="seekguLimitTime">
                         <option value="10">10분</option>
                         <option value="20">20분</option>
                         <option value="30">30분</option>
@@ -149,12 +183,12 @@
                         <option value="60">60분</option>
                     </select>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="seekguMealTime" value="LUNCH" id="seekguMealTime1">
-                        <label class="form-check-label" for="seekguMealTime1">
+                        <input class="form-check-input" type="radio" name="seekguMealTime" value="LUNCH" id="seekguMealTime">
+                        <label class="form-check-label" for="seekguMealTime">
                             점심
                         </label>
-                        <input class="form-check-input" type="radio" name="seekguMealTime" value="DINNER" id="seekguMealTime2">
-                        <label class="form-check-label" for="seekguMealTime2">
+                        <input class="form-check-input" type="radio" name="seekguMealTime" value="DINNER" id="seekguMealTime">
+                        <label class="form-check-label" for="seekguMealTime">
                             저녁
                         </label>
                     </div>
@@ -162,7 +196,7 @@
                     <input type="hidden" id="seekguRestaurantLatitude" name="seekguRestaurantLatitude">
                     <input type="hidden" id="seekguRestaurantLongitude" name="seekguRestaurantLongitude">
                     <button id="send_form_btn">Shoot@@@</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
