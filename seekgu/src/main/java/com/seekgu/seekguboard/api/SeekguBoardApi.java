@@ -1,12 +1,8 @@
 package com.seekgu.seekguboard.api;
 
-import com.seekgu.member.domain.dto.MemberSignUpDto;
 import com.seekgu.seekguboard.domain.dto.SeekguBoardCreateDto;
-import com.seekgu.seekguboard.domain.dto.SeekguBoardPreViewDto;
 import com.seekgu.utils.ApiUtil;
-import com.seekgu.seekguboard.domain.SeekguBoard;
 import com.seekgu.seekguboard.service.SeekguBoardService;
-import com.seekgu.utils.ApiUtil;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
