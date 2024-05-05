@@ -35,6 +35,7 @@ public class MemberApi {
     public ApiSuccessResult<Boolean> loginImpl(@RequestBody MemberLoginDto memberLoginDto, HttpSession session) {
         Member loginMember = memberService.login(memberLoginDto);
         session.setAttribute("memberId", loginMember.getMemberIdx());
+        session.setAttribute("memberNickName", loginMember.getMemberNickName());
         return ApiUtil.success(Boolean.TRUE);
     }
 
@@ -49,9 +50,9 @@ public class MemberApi {
         return ApiUtil.success(memberService.signUp(memberSignUpDto));
     }
 
-    @GetMapping("/logout")
-    public ApiSuccessResult<Boolean> logout(HttpSession session) {
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
         session.invalidate();
-        return ApiUtil.success(Boolean.TRUE);
+        return "redirect:/";
     }
 }
