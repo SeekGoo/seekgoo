@@ -51,9 +51,36 @@
                 remainingTimeElement.html(minutes + " : " + seconds);
                 timer.leftTimeInSeconds--;
             }
+        };
+        
+        let engage = {
+            url: '',
+            init:function (url) {
+                this.url = url;
+
+                $('#engage-button').click(function () {
+                    $.ajax({
+                        url: url,
+                        method: "POST",
+                        success: function (response) {
+                            if (response.response) {
+                                window.location.href = '<c:url value="/seekgu"/>';
+                            } else if (response.statusCode && response.message) {
+                                alert("Error: " + response.message);
+                            }
+                        },
+                        error: function () {
+                            console.error('참여하기 실패:', error);
+                        }
+
+                    })
+                })
+
+            }
         }
         $(document).ready(function() {
             timer.init();
+            engage.init('<c:url value="/seekgu/participate?seekguIdx="/>${seekguBoard.seekguIdx}');
         });
     </script>
 </head>
