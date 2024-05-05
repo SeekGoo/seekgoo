@@ -87,6 +87,7 @@ public class SeekguBoardService {
         if (seekguBoardWithReviews.getReviewList().get(0).getReviewIdx() == null) {
             seekguBoardWithReviews.setReviewList(new ArrayList<>());
         }
+        seekguBoardWithReviews.updateIsRecruiting();
         return seekguBoardWithReviews;
     }
 

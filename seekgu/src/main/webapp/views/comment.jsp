@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -21,6 +20,69 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="<c:url value="/js/scripts.js"/>"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let timer = {
+            leftTimeInSeconds: 0,
+            timerInterval: null,
+            init:function () {
+                var regStartTime = new Date("${seekguBoard.seekguRegDate}");
+                var limitTimeInSeconds = ${seekguBoard.seekguLimitTime} * 60;
+                var deadlineTimeInSeconds = regStartTime.getTime()/1000 + (limitTimeInSeconds);
+                var currentTimeInSeconds = new Date().getTime()/1000;
+                timer.leftTimeInSeconds = parseInt(deadlineTimeInSeconds - currentTimeInSeconds);
+
+                timer.updateTimer();
+                timer.timerInterval = setInterval(timer.updateTimer, 1000);
+            },
+            updateTimer:function () {
+                var remainingTimeElement = $('#remaining_time');
+
+                if (timer.leftTimeInSeconds <= 0) {
+                    clearInterval(timer.timerInterval);
+                    remainingTimeElement.html("모집 마감");
+                    $('#engage-button').prop('disabled', true);
+                    return;
+                }
+
+                var minutes = Math.floor(timer.leftTimeInSeconds / 60);
+                var seconds = timer.leftTimeInSeconds % 60;
+
+                remainingTimeElement.html(minutes + " : " + seconds);
+                timer.leftTimeInSeconds--;
+            }
+        };
+        
+        let engage = {
+            url: '',
+            init:function (url) {
+                this.url = url;
+
+                $('#engage-button').click(function () {
+                    $.ajax({
+                        url: url,
+                        method: "POST",
+                        success: function (response) {
+                            if (response.response) {
+                                window.location.href = '<c:url value="/seekgu"/>';
+                            } else if (response.statusCode && response.message) {
+                                alert("Error: " + response.message);
+                            }
+                        },
+                        error: function () {
+                            console.error('참여하기 실패:', error);
+                        }
+
+                    })
+                })
+
+            }
+        }
+        $(document).ready(function() {
+            timer.init();
+            engage.init('<c:url value="/seekgu/participate?seekguIdx="/>${seekguBoard.seekguIdx}');
+        });
+    </script>
 </head>
 
 <body>
@@ -49,17 +111,21 @@
         </div>
     </div>
 </header>
+
+<c:if test="${seekguBoard.isRecruiting && seekguBoard.memberIdx != sessionScope.memberId}">
+    <button id="engage-button">
+        <img src="/assets/logo_white.png" width="50px" alt="이미지_설명">
+        <br>
+            ${seekguBoard.seekguMemberCount} / ${seekguBoard.seekguMax}<br>
+        <span id="remaining_time"></span>
+        <p>참여하기</p>
+    </button>
+</c:if>
 <!-- Section-->
 
 <div class="gathering">
     <h4 class="fw-bolder">${seekguBoard.seekguTitle}</h4>
     <p class="fs-14 fw-bolder">작성자 : ${seekguBoard.seekguMemberNickName}</p>
-
-    <div class="divider"></div>
-    <span class="badge timer-background text-center fs-6 p-3 mb-2">
-            TIMER 09 : 50
-        </span>
-    <div class="divider"></div>
     <div>
         <p>${seekguBoard.seekguContent}</p>
     </div>
@@ -80,10 +146,12 @@
     </c:forEach>
 </c:if>
 
-<div class="write-comment">
-    <textarea placeholder="댓글을 입력하세요"></textarea>
-    <button class="write-comment-btn">댓글 등록</button>
-</div>
+<c:if test="${!seekguBoard.isRecruiting}">
+    <div class="write-comment">
+        <textarea placeholder="댓글을 입력하세요"></textarea>
+        <button class="write-comment-btn">댓글 등록</button>
+    </div>
+</c:if>
 
 
 <!-- Footer-->
