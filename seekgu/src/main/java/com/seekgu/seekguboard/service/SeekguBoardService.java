@@ -14,7 +14,11 @@ import com.seekgu.utils.slack.SlackUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +26,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class SeekguBoardService {
 
+    private static final Logger log = LoggerFactory.getLogger(SeekguBoardService.class);
     private final SeekguBoardRepository seekguBoardRepository;
     private final ParticipantRepository participantRepository;
     private final MemberRepository memberRepository;
     private final SlackUtil slackUtil;
+    private final RedisTemplate<String, Object> redisTemplate;
+    private final String REDIS_VALUE = "CREATED";
 
     @Transactional
     public Boolean createSeekguBoard(SeekguBoardCreateDto dto) {
@@ -48,16 +55,13 @@ public class SeekguBoardService {
                     .seekguIdx(saveIdx)
                     .build();
             participantRepository.saveParticipant(participant);
+            redisTemplate.opsForValue().set(saveIdx.toString(),REDIS_VALUE,seekguBoard.getSeekguLimitTime(), TimeUnit.MINUTES);
             sendCreateNoti(seekguBoard.getMemberIdx());
         } catch (Exception e) {
+            log.error(e.getMessage());
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
-    }
-
-    private void sendCreateNoti(Long memberIdx) {
-        Member member = memberRepository.getMemberByIdx(memberIdx);
-        slackUtil.sendRecruitmentStartNoti(member.getMemberNickName());
     }
 
     public List<SeekguBoardPreViewDto> mySeekguBoards(Long memberIdx) {
@@ -103,6 +107,20 @@ public class SeekguBoardService {
         Participant participant = Participant.builder().memberIdx(memberIdx).seekguIdx(seekguIdx).build();
         participantRepository.saveParticipant(participant);
         return Boolean.TRUE;
+    }
+
+    public void sendBoardDoneNoti(Long seekguIdx) {
+        List<Participant> participants = participantRepository.getParticipantsBySeekguIdx(seekguIdx);
+        List<String> slackIds = new ArrayList<>();
+        for (Participant p : participants) {
+            slackIds.add(memberRepository.getMemberByIdx(p.getMemberIdx()).getMemberSlackId());
+        }
+        slackUtil.sendRecruitmentCompletionNoti(slackIds);
+    }
+
+    private void sendCreateNoti(Long memberIdx) {
+        Member member = memberRepository.getMemberByIdx(memberIdx);
+        slackUtil.sendRecruitmentStartNoti(member.getMemberNickName());
     }
 
 }

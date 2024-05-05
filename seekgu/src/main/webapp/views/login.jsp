@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Title</title>
+    <link rel="icon" type="image/x-icon" href="<c:url value="/assets/favicon.png"/>"/>
     <link href='<c:url value="/css/login.css"/>' rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -44,7 +45,7 @@
                     }),
                     success: function (response) {
                         if (response.response) {
-                            window.location.href = '<c:url value="/seekgu/recruit"/>';
+                            window.location.href = '<c:url value="/seekgu"/>';
                         } else if (response.statusCode && response.message) {
                             alert("Error: " + response.message);
                         }

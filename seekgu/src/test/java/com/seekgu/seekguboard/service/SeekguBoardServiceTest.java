@@ -23,10 +23,10 @@ class SeekguBoardServiceTest {
                 "탐광",
                 123.1,
                 12.1,
-                8L,
-                2,
+                1L,
+                1,
                 4,
-                10,
+                1,
                 MealTime.LUNCH
         );
 

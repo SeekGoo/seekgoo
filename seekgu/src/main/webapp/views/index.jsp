@@ -10,7 +10,7 @@
     <meta name="author" content=""/>
     <title>Shop Homepage - Start Bootstrap Template</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="<c:url value="/assets/favicon.ico"/>"/>
+    <link rel="icon" type="image/x-icon" href="<c:url value="/assets/favicon.png"/>"/>
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
@@ -30,12 +30,25 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-3 mb-2 mb-lg-0 ms-lg-auto">
-                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="/member/login"/>">Login</a></li>
-                <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="/member/signup"/>">Sign Up</a></li>
-            </ul>
-        </div>
+        <c:choose>
+            <c:when test="${sessionScope.memberId == null}">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-3 mb-2 mb-lg-0 ms-lg-auto">
+                        <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="/member/login"/>">Login</a></li>
+                        <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="/member/signup"/>">Sign Up</a></li>
+                    </ul>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-3 mb-2 mb-lg-0 ms-lg-auto">
+                        <li class="nav-item fs-12"><a class="nav-link active" href="#">${sessionScope.memberNickName}</a></li>
+                        <li class="nav-item fs-12"><a class="nav-link active" href="<c:url value="/member/logout"/>">Logout</a></li>
+                    </ul>
+                </div>
+            </c:otherwise>
+        </c:choose>
+
     </div>
 </nav>
 <!-- Header-->
