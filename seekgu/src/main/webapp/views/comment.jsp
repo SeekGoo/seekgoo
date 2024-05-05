@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -21,6 +20,42 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="<c:url value="/js/scripts.js"/>"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let timer = {
+            leftTimeInSeconds: 0,
+            timerInterval: null,
+            init:function () {
+                var regStartTime = new Date("${seekguBoard.seekguRegDate}");
+                var limitTimeInSeconds = ${seekguBoard.seekguLimitTime} * 60;
+                var deadlineTimeInSeconds = regStartTime.getTime()/1000 + (limitTimeInSeconds);
+                var currentTimeInSeconds = new Date().getTime()/1000;
+                timer.leftTimeInSeconds = parseInt(deadlineTimeInSeconds - currentTimeInSeconds);
+
+                timer.updateTimer();
+                timer.timerInterval = setInterval(timer.updateTimer, 1000);
+            },
+            updateTimer:function () {
+                var remainingTimeElement = $('#remaining_time');
+
+                if (timer.leftTimeInSeconds <= 0) {
+                    clearInterval(timer.timerInterval);
+                    remainingTimeElement.html("모집 마감");
+                    $('#engage-button').prop('disabled', true);
+                    return;
+                }
+
+                var minutes = Math.floor(timer.leftTimeInSeconds / 60);
+                var seconds = timer.leftTimeInSeconds % 60;
+
+                remainingTimeElement.html(minutes + " : " + seconds);
+                timer.leftTimeInSeconds--;
+            }
+        }
+        $(document).ready(function() {
+            timer.init();
+        });
+    </script>
 </head>
 
 <body>
@@ -54,8 +89,8 @@
     <button id="engage-button">
         <img src="/assets/logo_white.png" width="50px" alt="이미지_설명">
         <br>
-        2 / 4<br>
-        09:48<br>
+            ${seekguBoard.seekguMemberCount} / ${seekguBoard.seekguMax}<br>
+        <span id="remaining_time"></span>
         <p>참여하기</p>
     </button>
 </c:if>
@@ -64,14 +99,6 @@
 <div class="gathering">
     <h4 class="fw-bolder">${seekguBoard.seekguTitle}</h4>
     <p class="fs-14 fw-bolder">작성자 : ${seekguBoard.seekguMemberNickName}</p>
-
-    <div class="divider"></div>
-    <c:if test="${seekguBoard.isRecruiting}">
-        <span class="badge timer-background text-center fs-6 p-3 mb-2">
-            TIMER 09 : 50
-        </span>
-    </c:if>
-    <div class="divider"></div>
     <div>
         <p>${seekguBoard.seekguContent}</p>
     </div>
