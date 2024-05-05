@@ -233,6 +233,11 @@
     transition: 0.3s;
 }
 
+#engage-button:disabled,
+#engage-button:disabled:hover {
+    background-color: gray;
+}
+
 body {
     margin: 0;
     font-family: var(--bs-body-font-family);
