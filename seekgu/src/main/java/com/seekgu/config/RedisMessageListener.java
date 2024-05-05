@@ -14,20 +14,21 @@ import org.springframework.stereotype.Component;
 public class RedisMessageListener implements MessageListener {
 
     private final SeekguBoardService seekguBoardService;
+
     @Override
     public void onMessage(Message message, byte[] pattern) {
         try {
             long seekguIdx = Long.parseLong(message.toString());
-            checkIfBoardDone(seekguIdx);
+            if (checkIfBoardDone(seekguIdx)) {
+                seekguBoardService.sendBoardDoneNoti(seekguIdx);
+            }
         } catch (NumberFormatException e) {
             log.error("올바르지 않은 메세지입니다.");
         }
     }
 
-    private void checkIfBoardDone(Long seekguIdx) {
+    private boolean checkIfBoardDone(Long seekguIdx) {
         SeekguBoard seekguBoard = seekguBoardService.findSeekguBoardById(seekguIdx);
-        if(seekguBoard.getSeekguMemberCount() >= seekguBoard.getSeekguMin()) {
-            seekguBoardService.sendBoardDoneNoti(seekguIdx);
-        }
+        return seekguBoard.getSeekguMemberCount() >= seekguBoard.getSeekguMin();
     }
 }
