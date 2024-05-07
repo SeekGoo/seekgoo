@@ -93,7 +93,7 @@
                         var mapContainer = document.getElementById('include-map'), // 지도를 표시할 div
                             mapOption = {
                                 center: new kakao.maps.LatLng(parseFloat(lng), parseFloat(lat)), // 지도의 중심좌표
-                                level: 1 // 지도의 확대 레벨
+                                level: 3 // 지도의 확대 레벨
                             };
                         var map = new kakao.maps.Map(mapContainer, mapOption);
                         var imageSrc = '<c:url value="/assets/marker.png"/>',
@@ -141,7 +141,7 @@
                     }),
                     success: function (response) {
                         if (response.response) {
-                            window.location.href = '<c:url value="/"/>';
+                            window.location.href = '<c:url value="/seekgu"/>';
                         } else if (response.statusCode && response.message) {
                             alert("Error: " + response.message);
                         }
