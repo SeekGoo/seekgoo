@@ -48,7 +48,7 @@
         SELECT * from seekguboard WHERE seekgu_idx = #{seekguIdx}
     </select>
 
-    <insert id="save" parameterType="seekguBoard">
+    <insert id="save" parameterType="seekguBoard" useGeneratedKeys="true" keyProperty="seekguIdx">
         INSERT INTO seekguboard (seekgu_idx, seekgu_title, seekgu_content, seekgu_restaurant_name, seekgu_restaurant_latitude, seekgu_restaurant_longitude, seekgu_min, seekgu_max, seekgu_limit_time, seekgu_reg_date, seekgu_meal_time, member_idx)
         values (0, #{seekguTitle}, #{seekguContent}, #{seekguRestaurantName}, #{seekguRestaurantLatitude}, #{seekguRestaurantLongitude}, #{seekguMin}, #{seekguMax}, #{seekguLimitTime}, NOW(), #{seekguMealTime}, #{memberIdx})
     </insert>

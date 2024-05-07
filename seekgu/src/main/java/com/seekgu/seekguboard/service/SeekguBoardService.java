@@ -49,13 +49,13 @@ public class SeekguBoardService {
                 .seekguMealTime(dto.getSeekguMealTime())
                 .build();
         try {
-            Long saveIdx = seekguBoardRepository.save(seekguBoard);
+            seekguBoardRepository.save(seekguBoard);
             Participant participant = Participant.builder()
                     .memberIdx(seekguBoard.getMemberIdx())
-                    .seekguIdx(saveIdx)
+                    .seekguIdx(seekguBoard.getSeekguIdx())
                     .build();
             participantRepository.saveParticipant(participant);
-            redisTemplate.opsForValue().set(saveIdx.toString(),REDIS_VALUE,seekguBoard.getSeekguLimitTime(), TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(seekguBoard.getSeekguIdx().toString(),REDIS_VALUE,seekguBoard.getSeekguLimitTime(), TimeUnit.MINUTES);
             sendCreateNoti(seekguBoard.getMemberIdx());
         } catch (Exception e) {
             log.error(e.getMessage());
