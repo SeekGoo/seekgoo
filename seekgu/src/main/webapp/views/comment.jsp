@@ -63,16 +63,19 @@
                         url: url,
                         method: "POST",
                         success: function (response) {
+                            console.log(response);
                             if (response.response) {
                                 window.location.href = '<c:url value="/seekgu"/>';
                             } else if (response.statusCode && response.message) {
-                                alert("Error: " + response.message);
+                                if(response.statusCode == 5000) {
+                                    alert(response.message);
+                                    window.location.href = '<c:url value="/member/login"/>';
+                                }
                             }
                         },
                         error: function () {
                             console.error('참여하기 실패:', error);
                         }
-
                     })
                 })
 
