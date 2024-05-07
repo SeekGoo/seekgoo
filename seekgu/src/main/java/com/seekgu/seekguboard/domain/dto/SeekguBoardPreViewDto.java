@@ -29,7 +29,8 @@ public class SeekguBoardPreViewDto {
     }
 
     private Boolean checkRecruiting() {
-        return LocalDateTime.now().isBefore(boardStartTime.plusMinutes(boardLimitTime));
+        return LocalDateTime.now().isBefore(boardStartTime.plusMinutes(boardLimitTime))
+                && this.boardMemberCount < this.boardMax;
     }
 
 }

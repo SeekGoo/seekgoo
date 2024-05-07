@@ -110,6 +110,9 @@ public class SeekguBoardService {
         seekguBoardRepository.participate(seekguIdx);
         Participant participant = Participant.builder().memberIdx(memberIdx).seekguIdx(seekguIdx).build();
         participantRepository.saveParticipant(participant);
+        if (seekguBoard.getSeekguMemberCount() == seekguBoard.getSeekguMax() - 1) {
+            sendBoardDoneNoti(seekguIdx);
+        }
         return Boolean.TRUE;
     }
 

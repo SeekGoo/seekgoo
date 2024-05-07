@@ -54,11 +54,11 @@
     </insert>
     
     <select id="findRecruitingSeekguBoard" resultType="seekguBoard">
-        SELECT * from seekguboard WHERE TIMESTAMPDIFF(MINUTE, seekgu_reg_date, NOW()) <![CDATA[<=]]> seekgu_limit_time
+        SELECT * from seekguboard WHERE TIMESTAMPDIFF(MINUTE, seekgu_reg_date, NOW()) <![CDATA[<]]> seekgu_limit_time AND seekgu_member_count  <![CDATA[<]]> seekgu_max
     </select>
 
     <select id="findDoneSeekguBoard" resultType="seekguBoard">
-        SELECT * from seekguboard WHERE TIMESTAMPDIFF(MINUTE, seekgu_reg_date, NOW()) <![CDATA[>]]> seekgu_limit_time
+        SELECT * from seekguboard WHERE TIMESTAMPDIFF(MINUTE, seekgu_reg_date, NOW()) <![CDATA[>=]]> seekgu_limit_time OR seekgu_member_count  <![CDATA[=]]> seekgu_max
     </select>
     <select id="findMySeekguBoard" resultType="seekguBoard" parameterType="Long">
         SELECT * from seekguboard WHERE member_idx = #{memberIdx}
