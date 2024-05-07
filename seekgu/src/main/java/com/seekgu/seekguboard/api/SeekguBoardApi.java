@@ -25,18 +25,21 @@ public class SeekguBoardApi {
 
     @GetMapping
     public String getRecruitingBoard(Model model) {
+        model.addAttribute("boardType", 1);
         model.addAttribute("seekguList", seekguBoardService.recruitingSeekguBoards());
         return "index";
     }
 
     @GetMapping("/done")
     public String getDoneBoard(Model model) {
+        model.addAttribute("boardType", 2);
         model.addAttribute("seekguList", seekguBoardService.doneSeekguBoards());
         return "index";
     }
 
     @GetMapping("/my")
     public String getMyBoard(@RequestParam(name = "memberIdx") Long memberIdx, Model model) {
+        model.addAttribute("boardType", 3);
         model.addAttribute("seekguList",seekguBoardService.mySeekguBoards(memberIdx));
         return "index";
     }
