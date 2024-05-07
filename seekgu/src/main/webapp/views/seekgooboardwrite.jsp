@@ -93,12 +93,17 @@
                         var mapContainer = document.getElementById('include-map'), // 지도를 표시할 div
                             mapOption = {
                                 center: new kakao.maps.LatLng(parseFloat(lng), parseFloat(lat)), // 지도의 중심좌표
-                                level: 3 // 지도의 확대 레벨
+                                level: 1 // 지도의 확대 레벨
                             };
                         var map = new kakao.maps.Map(mapContainer, mapOption);
+                        var imageSrc = '<c:url value="/assets/marker.png"/>',
+                            imageSize = new kakao.maps.Size(95, 95),
+                            imageOption = {offset: new kakao.maps.Point(27, 69)};
+                        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption)
                         var markerPosition  = new kakao.maps.LatLng(parseFloat(lng), parseFloat(lat));
                         var marker = new kakao.maps.Marker({
-                            position: markerPosition
+                            position: markerPosition,
+                            image: markerImage
                         });
                         marker.setMap(map);
                     })

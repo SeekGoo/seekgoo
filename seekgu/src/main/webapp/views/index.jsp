@@ -65,7 +65,14 @@
     <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/done"/>'">식구들</span>
     <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/my?memberIdx="/>${sessionScope.memberId}'">나의 식구</span>
 </div>
-<button id="write-button"><a href="<c:url value="/seekgu/write"/>">모집하기</a></button>
+<c:choose>
+    <c:when test="${sessionScope.memberId == null}">
+        <button id="write-button"><a onclick="alert('로그인 후 이용해주세요')">모집하기</a></button>
+    </c:when>
+    <c:otherwise>
+        <button id="write-button"><a href="<c:url value="/seekgu/write"/>">모집하기</a></button>
+    </c:otherwise>
+</c:choose>
 <!-- Section-->
 <section class="py-3">
     <div class="container px-4 px-lg-5 mt-5">
