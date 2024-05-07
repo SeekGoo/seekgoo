@@ -17,8 +17,24 @@
     <link href="<c:url value="/css/styles.css"/>" rel="stylesheet"/>
     <!-- Bootstrap core JS-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Core theme JS-->
-    <script src="<c:url value="/js/scripts.js"/>"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let index = {
+            init: function(){
+                let boardtype = $('#boardtype').val();
+                let spans = document.querySelectorAll('.menus .menu');
+                spans.forEach(span =>{
+                    span.style.color = 'gray';
+                })
+                spans[boardtype - 1].style.color = 'black';
+                spans[boardtype - 1].style.textDecoration = 'underline';
+            },
+        };
+
+        $(function(){
+           index.init();
+        });
+    </script>
 </head>
 <body>
 <!-- Navigation-->
@@ -60,12 +76,27 @@
         </div>
     </div>
 </header>
+<input id="boardtype" type="hidden" value="${boardType}">
 <div class="text-center mt-5 fs-4 menus">
     <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu"/>'">모집중</span>
     <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/done"/>'">식구들</span>
-    <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/my?memberIdx="/>${sessionScope.memberId}'">나의 식구</span>
+    <c:choose>
+        <c:when test="${sessionScope.memberId == null}">
+            <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu"/>'; alert('로그인 후 사용해주세요')">나의 식구</span>
+        </c:when>
+        <c:otherwise>
+            <span class="p-3 menu fw-bolder fs-14" onclick="location.href = '<c:url value="/seekgu/my?memberIdx="/>${sessionScope.memberId}'">나의 식구</span>
+        </c:otherwise>
+    </c:choose>
 </div>
-<button id="write-button"><a href="<c:url value="/seekgu/write"/>">모집하기</a></button>
+<c:choose>
+    <c:when test="${sessionScope.memberId == null}">
+        <button id="write-button"><a onclick="alert('로그인 후 이용해주세요')">모집하기</a></button>
+    </c:when>
+    <c:otherwise>
+        <button id="write-button"><a href="<c:url value="/seekgu/write"/>">모집하기</a></button>
+    </c:otherwise>
+</c:choose>
 <!-- Section-->
 <section class="py-3">
     <div class="container px-4 px-lg-5 mt-5">
@@ -102,9 +133,49 @@
                                         </div>
                                         <!-- 현재 모집인원 / 최대 모집 인원-->
                                         <span class="text-muted p-3">참여인원 ${seekgu.boardMemberCount} / ${seekgu.boardMax}</span><br>
-                                        <span class="badge timer-background text-center fs-6 p-3 mt-2">
-                                        TIMER 09 : 50
-                            </span>
+
+                                        <c:choose>
+                                            <c:when test="${seekgu.isRecruiting}">
+                                                <span id="timer${seekgu.boardIdx}" class="badge timer-background text-center fs-6 p-3 mt-2">
+                                                </span>
+                                                <script>
+                                                    function writeTime${seekgu.boardIdx}(){
+                                                        let timerElement = document.getElementById('timer${seekgu.boardIdx}');
+                                                        timerElement.textContent = makeTime${seekgu.boardIdx}();
+                                                    }
+
+                                                    function makeTime${seekgu.boardIdx}(){
+                                                        let currentTime = new Date().getTime()/1000;
+                                                        let regTime = new Date('${seekgu.boardStartTime}').getTime()/1000;
+                                                        let limitTime = ${seekgu.boardLimitTime} * 60;
+                                                        let leftTime = parseInt(regTime + limitTime - currentTime);
+
+                                                        let minutes = Math.floor(leftTime / 60);
+                                                        let seconds = leftTime % 60;
+
+                                                        if (minutes < 0 && seconds < 0){
+                                                            return '모집 마감';
+                                                        } else if (minutes < 10 && seconds < 10){
+                                                            return 'TIMER : 0' + minutes + " : 0" + seconds;
+                                                        } else if (minutes < 10){
+                                                            return 'TIMER : 0' + minutes + " : " + seconds;
+                                                        } else if (seconds < 10){
+                                                            return 'TIMER : ' + minutes + " : 0" + seconds;
+                                                        }
+                                                        return 'TIMER : ' + minutes + " : " + seconds;
+                                                    }
+
+                                                    writeTime${seekgu.boardIdx}();
+                                                    var interval${seekgu.boardIdx} = setInterval(writeTime${seekgu.boardIdx}, 1000);
+
+                                                </script>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge timer-background text-center fs-6 p-3 mt-2">
+                                                    모집 마감
+                                                </span>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                                 <!-- 모집 글 상세보기-->
