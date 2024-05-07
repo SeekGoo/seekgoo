@@ -8,6 +8,9 @@ import com.seekgu.seekguboard.domain.SeekguBoard;
 import com.seekgu.seekguboard.domain.dto.SeekguBoardCreateDto;
 import com.seekgu.seekguboard.domain.dto.SeekguBoardDetailDto;
 import com.seekgu.seekguboard.domain.dto.SeekguBoardPreViewDto;
+import com.seekgu.seekguboard.exception.AlreadyDoneException;
+import com.seekgu.seekguboard.exception.AlreadyParticipateException;
+import com.seekgu.seekguboard.exception.SeekguBoardWriteException;
 import com.seekgu.seekguboard.repository.SeekguBoardRepository;
 import com.seekgu.utils.slack.SlackUtil;
 
@@ -55,11 +58,12 @@ public class SeekguBoardService {
                     .seekguIdx(seekguBoard.getSeekguIdx())
                     .build();
             participantRepository.saveParticipant(participant);
-            redisTemplate.opsForValue().set(seekguBoard.getSeekguIdx().toString(),REDIS_VALUE,seekguBoard.getSeekguLimitTime(), TimeUnit.MINUTES);
+            redisTemplate.opsForValue()
+                    .set(seekguBoard.getSeekguIdx().toString(), REDIS_VALUE, seekguBoard.getSeekguLimitTime(),
+                            TimeUnit.MINUTES);
             sendCreateNoti(seekguBoard.getMemberIdx());
         } catch (Exception e) {
-            log.error(e.getMessage());
-            return Boolean.FALSE;
+            throw new SeekguBoardWriteException("식구모집 글 작성 중 오류가 발생하였습니다.");
         }
         return Boolean.TRUE;
     }
@@ -82,7 +86,7 @@ public class SeekguBoardService {
 
     public SeekguBoardDetailDto findSeekguBoardWithReviewById(Long seekguIdx) {
         SeekguBoardDetailDto seekguBoardWithReviews = seekguBoardRepository.findSeekguBoardWithReviews(seekguIdx)
-            .orElseThrow(() -> new RuntimeException("해당하는 식구가 없습니다."));
+                .orElseThrow(() -> new RuntimeException("해당하는 식구가 없습니다."));
 
         if (seekguBoardWithReviews.getReviewList().get(0).getReviewIdx() == null) {
             seekguBoardWithReviews.setReviewList(new ArrayList<>());
@@ -95,12 +99,12 @@ public class SeekguBoardService {
     public Boolean participate(Long seekguIdx, Long memberIdx) {
         SeekguBoard seekguBoard = seekguBoardRepository.getSeekguBoardForUpdate(seekguIdx);
         if (seekguBoard.getSeekguMemberCount() >= seekguBoard.getSeekguMax()) {
-            return Boolean.FALSE;
+            throw new AlreadyDoneException("이미 멤버 모집이 완료되었습니다.");
         }
         List<Participant> participants = participantRepository.getParticipantsBySeekguIdx(seekguIdx);
         for (Participant p : participants) {
             if (p.getMemberIdx().equals(memberIdx)) {
-                throw new IllegalArgumentException("이미 참여한 멤버입니다.");
+                throw new AlreadyParticipateException("이미 참여한 멤버입니다.");
             }
         }
         seekguBoardRepository.participate(seekguIdx);
