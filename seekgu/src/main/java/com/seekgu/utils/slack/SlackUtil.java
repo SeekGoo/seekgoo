@@ -1,5 +1,6 @@
 package com.seekgu.utils.slack;
 
+import com.seekgu.utils.slack.exception.SlackException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +32,7 @@ public class SlackUtil {
             }
         }
 
-        return userSlackId.orElseThrow(() -> new RuntimeException("SLACK_ID_NOT_FOUND"));
+        return userSlackId.orElseThrow(() -> new SlackException("SLACK_ID_NOT_FOUND"));
 
     }
 
@@ -51,7 +52,7 @@ public class SlackUtil {
                     .channel(channelId)
                     .users(List.of(slackId)));
         } catch (IOException | SlackApiException e) {
-            throw new RuntimeException("SLACK_API_FAILURE");
+            throw new SlackException("SLACK_API_FAILURE");
         }
     }
 
@@ -62,7 +63,7 @@ public class SlackUtil {
             );
             return result.getMembers();
         } catch (IOException | SlackApiException e) {
-            throw new RuntimeException("SLACK_API_FAILURE");
+            throw new SlackException("SLACK_API_FAILURE");
         }
     }
 
@@ -81,7 +82,7 @@ public class SlackUtil {
                     .channel(destinationId)
                     .text(message));
         } catch (IOException | SlackApiException e) {
-            throw new RuntimeException("SLACK_API_FAILURE");
+            throw new SlackException("SLACK_API_FAILURE");
         }
     }
 }

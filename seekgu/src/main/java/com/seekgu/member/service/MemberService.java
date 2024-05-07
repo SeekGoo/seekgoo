@@ -3,9 +3,13 @@ package com.seekgu.member.service;
 import com.seekgu.member.domain.Member;
 import com.seekgu.member.domain.dto.MemberLoginDto;
 import com.seekgu.member.domain.dto.MemberSignUpDto;
+import com.seekgu.member.exception.AlreadyExistsIdOrNickNameException;
+import com.seekgu.member.exception.NotExistUserException;
+import com.seekgu.member.exception.NotMatchPasswordException;
 import com.seekgu.member.repository.MemberRepository;
 import com.seekgu.utils.slack.SlackUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,17 +32,18 @@ public class MemberService {
         try {
             memberRepository.saveMember(member);
             slackUtil.addMemberToChannel(member.getMemberSlackId());
-        } catch (Exception e) {
-            return Boolean.FALSE;
+        } catch (DuplicateKeyException e) {
+            throw new AlreadyExistsIdOrNickNameException("이미 존재하는 아이디 또는 닉네임입니다.");
         }
+
         return Boolean.TRUE;
     }
 
     public Member login(MemberLoginDto memberLoginDto) {
-        Member member = memberRepository.getMemberById(memberLoginDto.getMemberId()).orElseThrow(() -> new IllegalArgumentException(
-                "존재하지 않는 회원입니다."));
+        Member member = memberRepository.getMemberById(memberLoginDto.getMemberId())
+                .orElseThrow(() -> new NotExistUserException("존재하지 않는 회원입니다."));
         if (!isValidPassword(memberLoginDto.getMemberPw(), member.getMemberPw())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new NotMatchPasswordException("비밀번호가 일치하지 않습니다.");
         }
         return member;
     }

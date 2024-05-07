@@ -1,6 +1,7 @@
 package com.seekgu.utils.kakao;
 
 
+import com.seekgu.utils.kakao.exception.KaKaoInvalidParsingException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -49,7 +50,7 @@ public class KakaoUtil {
             JSONObject jsonObject = (JSONObject) parser.parse(response.getBody().toString());
             return jsonObject.get("documents");
         } catch (ParseException e) {
-            throw new RuntimeException("파싱 에러");
+            throw new KaKaoInvalidParsingException("카카오 맵 조회 결과 파싱과정에서 예외가 발생하였습니다.");
         }
     }
 }

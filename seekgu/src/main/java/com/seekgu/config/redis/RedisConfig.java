@@ -1,4 +1,4 @@
-package com.seekgu.config;
+package com.seekgu.config.redis;
 
 import java.util.concurrent.Executor;
 import org.springframework.beans.factory.annotation.Value;
