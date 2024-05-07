@@ -1,4 +1,4 @@
-package com.seekgu.config;
+package com.seekgu.config.redis;
 
 import com.seekgu.seekguboard.domain.SeekguBoard;
 import com.seekgu.seekguboard.service.SeekguBoardService;
