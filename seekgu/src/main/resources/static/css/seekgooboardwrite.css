@@ -40,6 +40,7 @@ body {
     box-sizing: border-box;
     background-color: #fff;
     margin: auto;
+    border-radius: 6px;
 }
 
 .seekgooboardwrite-wrapper>h2 {
@@ -161,6 +162,10 @@ body {
     height: 100%;
     width: 100%;
     margin: 0;
+}
+
+.write-to-home a{
+    color: rgb(155, 135, 135);
 }
 
 @media screen and (max-width: 767.98px) {

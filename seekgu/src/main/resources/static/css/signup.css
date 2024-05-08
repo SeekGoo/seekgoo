@@ -29,6 +29,7 @@ body{
     padding: 40px;
     box-sizing: border-box;
     background-color: #fff;
+    border-radius: 6px;
  }
 
 .signup-wrapper > h2{
@@ -60,6 +61,10 @@ body{
 }
 #signup-form > label{
     color: #999999;
+}
+
+.signup-to-home a{
+    color: rgb(155, 135, 135);
 }
 
 @media screen and (max-width: 576px) {
