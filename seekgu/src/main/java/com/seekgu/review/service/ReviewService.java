@@ -1,13 +1,17 @@
 package com.seekgu.review.service;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;;
 import com.seekgu.participant.repository.ParticipantRepository;
 import com.seekgu.review.domain.Review;
+import com.seekgu.review.exception.DataLengthTooLongException;
 import com.seekgu.review.repository.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
@@ -20,8 +24,8 @@ public class ReviewService {
 		try {
 			checkMemberIsSeekgu(memberIdx, review.getSeekguIdx());
 			reviewRepository.save(review);
-		} catch (Exception e) {
-			return Boolean.FALSE;
+		} catch (DataIntegrityViolationException e) {
+			throw new DataLengthTooLongException("글자수 맞추라고 했잖아");
 			}
 		return Boolean.TRUE;
 	}

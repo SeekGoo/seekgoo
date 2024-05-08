@@ -38,6 +38,10 @@
                 $.ajax({
                     url: '<c:url value="/api/map/search"/>?keyword=' + keyword,
                     success:function(data){
+                        if (data.statusCode && data.message) {
+                            alert(data.message);
+                            return;
+                        }
                         console.log(data)
                         seekgooboardwrite.makeList(data);
                     }

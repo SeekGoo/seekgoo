@@ -47,7 +47,7 @@
                         if (response.response) {
                             window.location.href = '<c:url value="/seekgu"/>';
                         } else if (response.statusCode && response.message) {
-                            alert("Error: " + response.message);
+                            alert(response.message);
                         }
                     },
                     error: function () {

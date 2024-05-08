@@ -71,6 +71,7 @@
                                     alert(response.message);
                                     window.location.href = '<c:url value="/member/login"/>';
                                 }
+                                alert(response.message);
                             }
                         },
                         error: function () {
@@ -153,6 +154,7 @@
                                 alert(response.message);
                                 window.location.href = '<c:url value="/member/login"/>';
                             }
+                            alert(response.message);
                         }
                     },
                     error: function () {
