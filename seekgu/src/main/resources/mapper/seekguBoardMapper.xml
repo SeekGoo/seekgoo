@@ -60,8 +60,12 @@
     <select id="findDoneSeekguBoard" resultType="seekguBoard">
         SELECT * from seekguboard WHERE TIMESTAMPDIFF(MINUTE, seekgu_reg_date, NOW()) <![CDATA[>=]]> seekgu_limit_time OR seekgu_member_count  <![CDATA[=]]> seekgu_max
     </select>
+
     <select id="findMySeekguBoard" resultType="seekguBoard" parameterType="Long">
-        SELECT * from seekguboard WHERE member_idx = #{memberIdx}
+        SELECT * from seekguboard s
+        LEFT JOIN
+            participant p ON s.seekgu_idx = p.seekgu_idx
+        WHERE p.member_idx = #{memberIdx}
     </select>
 
     <select id="getSeekguBoardForUpdate" resultType="seekguBoard" parameterType="Long">
