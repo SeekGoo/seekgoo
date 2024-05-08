@@ -13,6 +13,9 @@ public enum ErrorCode {
     BOARD_NOT_WRITE(6010),
     CANT_PARTICIPATE(6011),
 
+//    REVIEW 관련 7XXX ~
+    REVIEW_TOO_LONG(7000),
+
 //  일반 관련
     UNKNOWN_ERROR(8010);
 

@@ -53,6 +53,6 @@ public class MemberApi {
     @RequestMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/";
+        return "redirect:/seekgu";
     }
 }

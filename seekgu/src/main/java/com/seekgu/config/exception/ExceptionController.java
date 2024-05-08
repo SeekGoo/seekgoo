@@ -3,6 +3,7 @@ package com.seekgu.config.exception;
 import com.seekgu.member.exception.AlreadyExistsIdOrNickNameException;
 import com.seekgu.member.exception.NotExistUserException;
 import com.seekgu.member.exception.NotMatchPasswordException;
+import com.seekgu.review.exception.DataLengthTooLongException;
 import com.seekgu.seekguboard.exception.AlreadyDoneException;
 import com.seekgu.seekguboard.exception.AlreadyParticipateException;
 import com.seekgu.seekguboard.exception.SeekguBoardWriteException;
@@ -47,6 +48,11 @@ public class ExceptionController {
     @ExceptionHandler({AlreadyParticipateException.class, AlreadyDoneException.class})
     public ApiErrorResult<String> handleParticipateException(RuntimeException e) {
         return ApiUtil.error(ErrorCode.CANT_PARTICIPATE.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(DataLengthTooLongException.class)
+    public ApiErrorResult<String> handleReviewException(DataLengthTooLongException e) {
+        return ApiUtil.error(ErrorCode.REVIEW_TOO_LONG.getCode(), e.getMessage());
     }
 
     @ExceptionHandler({RuntimeException.class, SlackException.class, KaKaoInvalidParsingException.class})
