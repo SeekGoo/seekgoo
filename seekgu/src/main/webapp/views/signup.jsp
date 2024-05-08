@@ -102,6 +102,9 @@
                 </div>
                 <input id="btn_signup" type="submit" value="Sign Up">
             </form>
+            <div class="signup-to-home col">
+                <a href='<c:url value="/seekgu"/>'>or to Home</a>
+            </div>
         </div>
     </div>
 </body>

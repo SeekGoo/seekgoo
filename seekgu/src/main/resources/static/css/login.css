@@ -24,9 +24,10 @@ body{
 
 .login-wrapper{
     width: 400px;
-    height: 500px;
+    height: 400px;
     padding: 40px;
     box-sizing: border-box;
+    border-radius: 6px;
     background-color: #fff;
  }
 

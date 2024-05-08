@@ -70,9 +70,9 @@
                 <input type="password" id="memberPassword" name="memberPassword" placeholder="Password">
                 <input id="btn_login" type="submit" value="Login">
             </form>
-            <br>
-            <div class="login-to-signup">
+            <div class="login-to-signup col">
                 <a href='<c:url value="/member/signup"/>'>or Be Our SeekGoo</a>
+                <a href='<c:url value="/seekgu"/>' style="float: right">or to Home</a>
             </div>
         </div>
     </div>
