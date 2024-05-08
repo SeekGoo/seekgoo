@@ -80,10 +80,56 @@
                 })
 
             }
+        };
+
+        let review = {
+            url: '',
+            init:function (url) {
+                this.url = url;
+
+                $('#btn_createReview').click(function () {
+                    let seekguIdx = '${seekguBoard.seekguIdx}';
+                    let memberNickName = '${sessionScope.memberNickName}';
+                    let reviewComment = $('#reviewComment').val();
+                    if (reviewComment === "") {
+                        alert("리뷰코멘트를 입력해주세요.");
+                        $('#reviewComment').focus();
+                        return;
+                    }
+
+                    review.send(seekguIdx, memberNickName, reviewComment);
+                });
+            },
+            send : function (seekguIdx, memberNickName, reviewComment) {
+                $.ajax({
+                    url: this.url,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        seekguIdx: seekguIdx,
+                        memberNickname: memberNickName,
+                        reviewComment: reviewComment
+                    }),
+                    success: function (response) {
+                        if (response.response) {
+                            location.reload();
+                        } else if (response.statusCode && response.message) {
+                            if(response.statusCode == 5000) {
+                                alert(response.message);
+                                window.location.href = '<c:url value="/member/login"/>';
+                            }
+                        }
+                    },
+                    error: function () {
+                        console.error('리뷰등록 실패:', error);
+                    }
+                })
+            }
         }
         $(document).ready(function() {
             timer.init();
             engage.init('<c:url value="/seekgu/participate?seekguIdx="/>${seekguBoard.seekguIdx}');
+            review.init('<c:url value="/review/write"/>')
         });
     </script>
 </head>
@@ -151,8 +197,8 @@
 
 <c:if test="${!seekguBoard.isRecruiting}">
     <div class="write-comment">
-        <textarea placeholder="댓글을 입력하세요"></textarea>
-        <button class="write-comment-btn">댓글 등록</button>
+        <textarea id="reviewComment" placeholder="댓글을 입력하세요. (80자 미만 오네가이)"></textarea>
+        <button id="btn_createReview" class="write-comment-btn">댓글 등록</button>
     </div>
 </c:if>
 

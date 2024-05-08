@@ -7,7 +7,7 @@
 
     <insert id="save" parameterType="review">
         INSERT INTO review (review_idx, seekgu_idx, review_rate, member_nickname, review_comment)
-        values (0, #{seekguIdx}, #{reviewRate}, #{memberNickname}, #{reviewComment})
+        values (0, #{seekguIdx}, 1, #{memberNickname}, #{reviewComment})
     </insert>
 
 </mapper>
