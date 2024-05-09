@@ -32,6 +32,7 @@ public class SeekguBoardDetailDto {
     private Boolean isRecruiting;
 
     public void updateIsRecruiting() {
-        this.isRecruiting = LocalDateTime.now().isBefore(seekguRegDate.plusMinutes(seekguLimitTime));
+        this.isRecruiting = LocalDateTime.now().isBefore(seekguRegDate.plusMinutes(seekguLimitTime))
+            && this.seekguMemberCount < this.seekguMax;
     }
 }
