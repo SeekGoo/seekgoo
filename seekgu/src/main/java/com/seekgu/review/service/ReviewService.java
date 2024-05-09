@@ -1,5 +1,6 @@
 package com.seekgu.review.service;
 
+import com.seekgu.review.exception.NotASeekguException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;;
@@ -33,7 +34,7 @@ public class ReviewService {
 	private void checkMemberIsSeekgu(Long memberIdx, Long seekguIdx) {
 		Integer isSeekgu = participantRepository.checkMemberIsSeekgu(memberIdx, seekguIdx);
 		if(isSeekgu == 0) {
-			throw new RuntimeException("NO_PERMISSIO_TO_REVIEW");
+			throw new NotASeekguException("식구만 리뷰를 남길 수 있습니다.");
 		}
 	}
 

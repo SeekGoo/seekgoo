@@ -4,6 +4,7 @@ import com.seekgu.member.exception.AlreadyExistsIdOrNickNameException;
 import com.seekgu.member.exception.NotExistUserException;
 import com.seekgu.member.exception.NotMatchPasswordException;
 import com.seekgu.review.exception.DataLengthTooLongException;
+import com.seekgu.review.exception.NotASeekguException;
 import com.seekgu.seekguboard.exception.AlreadyDoneException;
 import com.seekgu.seekguboard.exception.AlreadyParticipateException;
 import com.seekgu.seekguboard.exception.SeekguBoardWriteException;
@@ -53,6 +54,11 @@ public class ExceptionController {
     @ExceptionHandler(DataLengthTooLongException.class)
     public ApiErrorResult<String> handleReviewException(DataLengthTooLongException e) {
         return ApiUtil.error(ErrorCode.REVIEW_TOO_LONG.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(NotASeekguException.class)
+    public ApiErrorResult<String> handleNotASeekguException(NotASeekguException e) {
+        return ApiUtil.error(ErrorCode.NOT_A_REVIEWER.getCode(), e.getMessage());
     }
 
     @ExceptionHandler({RuntimeException.class, SlackException.class, KaKaoInvalidParsingException.class})
