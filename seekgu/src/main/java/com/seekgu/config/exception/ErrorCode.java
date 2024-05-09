@@ -15,6 +15,7 @@ public enum ErrorCode {
 
 //    REVIEW 관련 7XXX ~
     REVIEW_TOO_LONG(7000),
+    NOT_A_REVIEWER(7011),
 
 //  일반 관련
     UNKNOWN_ERROR(8010);
